@@ -1,8 +1,8 @@
 /*
-  WiFiTelnetToSerial - Example Transparent UART to Telnet Server for esp8266
-
+  WiFiTelnetToSeri
   Copyright (c) 2015 Hristo Gochkov. All rights reserved.
-  This file is part of the ESP8266WiFi library for Arduino environment.
+  This file is part of the ESP8266al - Example Transparent UART to Telnet Server for esp8266
+WiFi library for Arduino environment.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -19,8 +19,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #include <ESP8266WiFi.h>
-#include <SoftwareSerial.h>
-SoftwareSerial mySerial(10, 11); // RX, TX
 
 
 //how many clients should be able to telnet to this ESP8266
@@ -37,10 +35,10 @@ void setup() {
   WiFi.mode(WIFI_AP);
   //  Serial.print("wifi status = ");
   //  Serial.println(WiFi.status());
-  WiFi.softAP("think_13", "zzzzzzzz");
+  WiFi.softAP("think_13", "");
   //  WiFi.begin(ssid, password);
   IPAddress myIP = WiFi.softAPIP();
-  mySerial.begin(9600);
+  
 
   /* station mode needed
     Serial.print("\nConnecting to "); Serial.println(ssid);
@@ -52,7 +50,6 @@ void setup() {
     }
   */
   //start UART and the server
-  //  Serial.begin(9600);
   server.begin();
   server.setNoDelay(true);
 
@@ -87,21 +84,25 @@ void loop() {
     if (serverClients[i] && serverClients[i].connected()) {
       if (serverClients[i].available()) {
         //get data from the telnet client and push it to the UART
-        char a[10];
+        char *datas;
         int count = 0;
         while (serverClients[i].available()) {
           char receive_data = serverClients[i].read();
           Serial.write(receive_data);
-          mySerial.write(receive_data);
-          a[count++] = receive_data;
+//          datas[count++] = receive_data;
+          *(datas + count++) = receive_data;
         }
-        for (i = 0; i < MAX_SRV_CLIENTS; i++) {
-          if (serverClients[i] && serverClients[i].connected()) {
-            serverClients[i].write(a, 10);
-            delay(1);
+        Serial.println(*datas);
 
-          }
-        }
+
+        
+//        for (i = 0; i < MAX_SRV_CLIENTS; i++) {
+//          if (serverClients[i] && serverClients[i].connected()) {
+//            serverClients[i].write(a, 10);
+//            delay(1);
+//
+//          }
+//        }
       }
     }
   }
