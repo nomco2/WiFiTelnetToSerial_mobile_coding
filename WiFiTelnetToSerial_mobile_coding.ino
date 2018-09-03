@@ -84,15 +84,16 @@ void loop() {
     if (serverClients[i] && serverClients[i].connected()) {
       if (serverClients[i].available()) {
         //get data from the telnet client and push it to the UART
-        char *datas;
+
+        String datas = "";
         int count = 0;
         while (serverClients[i].available()) {
           char receive_data = serverClients[i].read();
-          Serial.write(receive_data);
-//          datas[count++] = receive_data;
-          *(datas + count++) = receive_data;
+//          Serial.write(receive_data);
+          datas += receive_data;
         }
-        Serial.println(*datas);
+//        Serial.println(datas);
+        string_processing(datas);
 
 
         
