@@ -61,14 +61,23 @@ boolean condition_checker(char *datas2, int condition_start, int condition_end){
             }
             
         }
-        Serial.println(variables[0]);
-        Serial.println(variables[1]);
-        Serial.println(variables[2]);
-
+//        Serial.println(variables[0]);
+//        Serial.println(variables[1]);
+//        Serial.println(variables[2]);
+//        Serial.println();
 
       switch(datas2[condition_start-2]){
+        char var_to_char[10];
+        int digital_pin;
+        
         case 'f' : //if문
-          
+          variables[0].toCharArray(var_to_char,10);
+          if(var_to_char[0] == 'd' || var_to_char[0] == 'D'){
+            digital_pin = (int)var_to_char[1];
+            Serial.println(var_to_char[1]);
+            Serial.println(digital_pin);
+            Serial.println();
+          }
           break;
         case 'r' : //for문
           break;
@@ -81,5 +90,3 @@ boolean condition_checker(char *datas2, int condition_start, int condition_end){
         
       return false;
 }
-
-
