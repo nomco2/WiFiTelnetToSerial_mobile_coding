@@ -2,7 +2,7 @@
   WiFiTelnetToSeri
   Copyright (c) 2015 Hristo Gochkov. All rights reserved.
   This file is part of the ESP8266al - Example Transparent UART to Telnet Server for esp8266
-WiFi library for Arduino environment.
+  WiFi library for Arduino environment.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -22,9 +22,7 @@ WiFi library for Arduino environment.
 
 
 //how many clients should be able to telnet to this ESP8266
-#define MAX_SRV_CLIENTS 2
-const char* ssid = "I-GEOSCAN123";
-const char* password = "zzzzzzzz";
+#define MAX_SRV_CLIENTS 4
 
 WiFiServer server(23);
 WiFiClient serverClients[MAX_SRV_CLIENTS];
@@ -32,13 +30,13 @@ WiFiClient serverClients[MAX_SRV_CLIENTS];
 void setup() {
   delay(2000);
   Serial.begin(9600);
-  WiFi.mode(WIFI_AP);
+  WiFi.mode(WIFI_AP_STA);
   //  Serial.print("wifi status = ");
   //  Serial.println(WiFi.status());
   WiFi.softAP("think_13", "");
   //  WiFi.begin(ssid, password);
   IPAddress myIP = WiFi.softAPIP();
-  
+
 
   /* station mode needed
     Serial.print("\nConnecting to "); Serial.println(ssid);
@@ -89,21 +87,21 @@ void loop() {
         int count = 0;
         while (serverClients[i].available()) {
           char receive_data = serverClients[i].read();
-//          Serial.write(receive_data);
+          //          Serial.write(receive_data);
           datas += receive_data;
         }
-//        Serial.println(datas);
+        //        Serial.println(datas);
         string_processing(datas);
 
 
-        
-//        for (i = 0; i < MAX_SRV_CLIENTS; i++) {
-//          if (serverClients[i] && serverClients[i].connected()) {
-//            serverClients[i].write(a, 10);
-//            delay(1);
-//
-//          }
-//        }
+
+        //        for (i = 0; i < MAX_SRV_CLIENTS; i++) {
+        //          if (serverClients[i] && serverClients[i].connected()) {
+        //            serverClients[i].write(a, 10);
+        //            delay(1);
+        //
+        //          }
+        //        }
       }
     }
   }
