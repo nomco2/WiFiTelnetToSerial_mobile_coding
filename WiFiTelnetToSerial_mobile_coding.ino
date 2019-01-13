@@ -69,7 +69,7 @@ void loop() {
       if (!serverClients[i] || !serverClients[i].connected()) {
         if (serverClients[i]) serverClients[i].stop();
         serverClients[i] = server.available();
-        //        Serial.print("New client: "); Serial.print(i);
+                Serial.print("New client: "); Serial.print(i);
         continue;
       }
     }
@@ -87,11 +87,11 @@ void loop() {
         int count = 0;
         while (serverClients[i].available()) {
           char receive_data = serverClients[i].read();
-          //          Serial.write(receive_data);
-          datas += receive_data;
+          Serial.write(receive_data);
+          //          datas += receive_data;
         }
         //        Serial.println(datas);
-        string_processing(datas);
+//        string_processing(datas);
 
 
 
